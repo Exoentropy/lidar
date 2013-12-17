@@ -1,0 +1,11 @@
+0-5: Throws an error, since there are no braces around the code for the main method.
+
+0-6: The program makes and runs properly, regardless of the six '{' and '}'.
+
+0-7: The code without the comment works just fine.  However, with the comment the open and close comment fuctions are used in appropriately and the comment is closed too early.  Thus, part of the comment is interpreted as code.
+
+0-8: This code works with the comment, since the // command makes the rest of the line a comment.  The problem is solved.
+
+1-5: The best way to fix this problem is simply to omit all of the braces, except for the ones for the main method.  This eliminates the scope issues that this code segment has.
+
+1-6: The program asks for one name, then prints a greeting message for the first name.  It then asks for a second name.  After that, it then prints out a greeting message for the second input.

@@ -1,0 +1,67 @@
+Instructions for assignment 3
+
+0. [1 pt] Put your name in name.txt
+
+1. [19 pts] Write a program called "fixlidar."  Lidar is a laser technology
+   that, in this case, produces many "points" representing locations on the
+   ground.  The points we'll be dealing with have 4 attributes: x, y, z and
+   intensity.  We'll be working with a lidar dataset taken in Lyon county,
+   Iowa.  First, download and unzip the data:
+      wget http://userweb.cs.utexas.edu/~edwardsj/downloads/lyon.xyzi.zip
+      unzip lyon.xyzi.zip
+   To see what the data looks like, open lyon.xyzi in a text editor.  You 
+   should also look at it visually:
+      wget http://userweb.cs.utexas.edu/~edwardsj/downloads/lidarviewer
+      chmod 755 lidarviewer
+      ./lidarviewer lyon.xyzi
+   (lidarviewer is a linux program that should run on CS department machines.)
+   The viewer defaults showing points colored by point intensity.  You can
+   see them colored by height (z-value) by pressing 'z' on the keyboard (press
+   'i' to go back to intensity).  You can also increase/decrease the size of 
+   the points by hitting the up/down arrow.
+
+   If you look at the points colored by intensity you'll notice that it is
+   very low contrast.  This is because of a few points with bad intensity
+   values throwing off the statistics (you can see one such point shining
+   brightly in the center of the dataset, like is shown here:
+   cs.utexas.edu/~edwardsj/downloads/lyon_bad.png).  Your task is to remove 
+   these bad points so that the dataset will display with better contrast.
+
+   1a. Write a struct called Point in Point.h.  Look at xyzi.cpp to see what
+       data members your struct should have.  The code should compile once 
+       you have added this struct.  Compile and run like so:
+          make
+          ./fixlidar lyon.xyzi fixed.xyzi
+   1b. Write a function called calcAverage that returns the average intensity
+       of the points.  It should take the points as an argument to the 
+       function.  Put the function declaration in stats.h and the function
+       body in stats.cpp.
+   1c. Write a function called calcStdDev that returns the standard deviation
+       of intensities.  It should take the points and average intensity as
+       arguments.  Put the function declaration in stats.h and the function
+       body in stats.cpp.  Your calculation should not use Bessel's correction
+       as we're finding the standard deviation of the entire population, and
+       not just a sample.
+   1d. Write a function called removeBad that removes all points that have
+       an intensity more than 3 standard deviations above the average.  That
+       is, if (point._i > avg + 3 * stdDev) then remove the point.  The point
+       removal should be done in-place, without creating a new vector.
+   1e. Put it all together by filling out the main() function.
+       A new file called fixed.xyzi should be written out.  When you load
+       it into lidarviewer it should look much better when viewing colored
+       by intensity.  
+   1f. In your comments for the removeBad function, discuss its shortcomings,
+       primarily its inefficiencies.  Discuss what might be done to fix it,
+       but don't worry about fixing it yet -- we'll do that in the next
+       assignment.
+   1g. As always, go back through your code and tighten it up.  Make it 
+       something to be proud of.  Another reason to do this is that this code
+       is what you'll be starting with in the next assignment, so make it nice!
+
+2. Check your code against the applicable coding guidelines at 
+   cs.utexas.edu/~edwardsj/teaching/2011spring/cs105/coding_guidelines.html
+
+3. Submit files using turnin.  This can be done as follows:
+        chmod 755 turnin.sh
+        ./turnin.sh
+

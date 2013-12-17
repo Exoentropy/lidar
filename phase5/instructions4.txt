@@ -1,0 +1,88 @@
+Instructions for assignment 4
+
+0. Copy all files from assignment 3:
+       cp -u ../assignment3/* .
+
+1. Change the code so that the points are stored in a list rather than a
+   vector.  Start by changing the code in xyzi.cpp/h and going from there.
+   Doing this will require changing loops so that they use iterators rather
+   than indices.  Sections 5.3 and 5.5 of the book may be helpful to you in 
+   doing this.  Section 5.5 uses list<>::iterator but if your list is const
+   then you'll have to use list<>::const_iterator.
+
+2. Change calcAverage, calcStdDev and removeBad to take a generic point rather
+   than a specific point.  That is, make them template functions similar to
+   what is done in section 8.1 of the book.  You will need to move the function
+   definitions to the .h file or else you will get a linker error.  Hint: 
+   either change the declarations in stats.h to declare a templatized 
+   function or remove them.  You only need a function declaration in the 
+   header file if you're defining the function in a cpp file.
+     Also, if you ever need to use a templated class with the new type, such 
+   as something like the following:
+        list<T>::const_iterator it = points.begin();
+   you will get a strange error if done as above.  You always need to precede
+   the declaration with "typename" as follows:
+        typename list<T>::const_iterator it = points.begin();
+   The explanation for this is advanced.  Just take it as an article of faith
+   for now.
+     You should be able to compile and run.  The output lidar file should be
+   identical to what it was before your code modifications.
+
+3. Create a new struct called Point2 and put it in Point2.h (you'll have to
+   create the file and also add an entry for the file into Makefile).  Point2
+   is just like Point except that it has additional data members:
+     int _c;   // classification
+     double _t; // time
+   Make sure that the #ifndef at the top of Point2.h is different from the one
+   in Point.h!
+
+4. Put two functions read() and write() inside each of the Point and Point2 
+   structs.  One function should read values from an input stream to populate
+   the struct data members, and one function should write data member values
+   out to an output stream.  You can get most of the logic from xyzi.cpp.
+   Keep in mind that the implementations of these two functions will be
+   slightly different between Point and Point2, since Point2 has two additional
+   data members.  The functions should have the following signatures:
+      bool read(std::istream& in) // returns true if successfully read values
+      void write(std::ostream& out) const
+
+
+5. Templatize the two functions in xyzi.h/cpp to use a generic point.  You'll
+   have to move the function definitions into xyzi.h.  When you call readxyz(in)
+   the compiler will not be able to figure out what the type for the Point is.  
+   So you'll have to tell it explicitly by calling it like so:
+      points = readxyz<Point2>(in);
+     
+6. sioux.xyzict is a dataset from Sioux county in Iowa that has (bogus)
+   classification and time fields.  Download it:
+      wget http://userweb.cs.utexas.edu/~edwardsj/downloads/sioux.xyzict.zip
+      unzip sioux.xyzict.zip
+
+7. Change your main() function so that it determines which point type 
+   from the extension of the input filename.  If the 
+   extension is something other than "xyzi" or "xyzict" then print an error
+   and return. Read the dataset and print the average intensity and its
+   standard deviation to stdout. 
+     This may be the most difficult step of the assignment.  You may be tempted
+   to put a lot of duplicate logic in the if/else statement.  Avoid doing this.
+   Output should be:
+         average = 5.33356, standard dev = 1.21347 (for lyon)
+         average = 5.14726, standard dev = 1.16778 (for sioux)
+   Remember to divide by N instead of N-1 in your standard deviation 
+   calculation since we are using the entire population in the calculation.
+     The key here is that you should have ONLY ONE of each of the following 
+   functions: calcAverage(), calcStdDev(), read() and write() function.  The 
+   beauty of templates is that these functions will work with either Point 
+   class. 
+
+8. After calculating the average and standard deviation, remove bad points
+   and output the fixed file.
+
+9. Check your code against the applicable coding guidelines at 
+   cs.utexas.edu/~edwardsj/teaching/2011spring/cs105/coding_guidelines.html
+
+10. Submit all files using turnin.  If necessary, change all "assignment3"
+   to "assignment4" in turnin.sh.  Then:
+        chmod 755 turnin.sh
+        ./turnin.sh
+

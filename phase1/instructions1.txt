@@ -1,0 +1,30 @@
+Instructions for assignment 1
+
+0. [1 pt] Put your name in name.txt
+
+1. [2 pts] Getting started
+  1a. type "make hello" at the command line
+  1b. type "./hello" at the command line.  This should print "Hello world!" 
+      to the screen.
+  1c. Modify hello.cpp so that it prints "Hello there, alien!"
+  1d. Build and run your new program by following steps 1a and 1b.
+
+2. [3 pts] Do exercise 0-2 from the book.  See page 6 of the book if you get stuck.
+   Put your code in quote.cpp.  You can build and run by typing
+        make quote
+        ./quote
+
+3. [6 pts] Do exercises 0-5, 0-6, 0-7, 0-8, 1-5, 1-6 in the book.  Put your written
+   answers in written.txt.  You can use sandbox.cpp for experimentation.  To 
+   build and run sandbox type
+        make sandbox
+        ./sandbox
+
+4. [8 pts] Write a program called "larger."  Instructions on what this program should do
+   are found in larger.cpp.  Put your code in larger.cpp.
+
+5. Check your code against the applicable coding guidelines at 
+   cs.utexas.edu/~edwardsj/teaching/2011spring/cs105/coding_guidelines.html
+
+6. Submit all files using turnin.  This can be done as follows:
+        turnin --submit edwardsj assignment1 *

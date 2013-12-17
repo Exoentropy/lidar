@@ -1,0 +1,65 @@
+Instructions for assignment 2
+
+0. [1 pt] Put your name in name.txt
+
+1. [19 pts] Write a program called "quartile."  Put your code in quartile.cpp.
+   This program reads integer scores from stdin and prints out the sorted 
+   scores in each quartile.  It then prints out statistics on each quartile,
+   including min, max, spread (max-min), and average.  The average should be
+   rounded to the nearest integer.  For example, if you run:
+  
+        cat quartile.dat | ./quartile
+  
+   the output will be:
+
+The sorted scores in each quartile are:
+  q1  q2  q3  q4
+  32  77  83  89
+  46  79  83  90
+  48  79  83  90
+  55  79  84  92
+  57  79  84  94
+  66  80  84  94
+  67  80  84  94
+  69  81  84  95
+  70  81  88  97
+  72  81  89  98
+  76  82  89  99
+
+Statistics for each quartile are:
+     min max spr avg
+q1    32  76  44  60
+q2    77  82   5  80
+q3    83  89   6  85
+q4    89  99  10  94
+  
+   You can assume that the number of scores is evenly divisible by 4.
+
+   Remember, getting the program correct is only the first step.  You will
+   be graded on clarity, brevity, style, comments and efficiency.  This
+   program must have at least one function besides main(), but I expect
+   that you will want to have more than that.
+  
+   HINTS:
+  
+   See section 3.1.1 for suggestions on how to read in values until EOF is
+   reached.  See the second-to-last paragraph on page 36 to see to to send
+   EOF to stdin if entering values in a the command-line.
+  
+   The header of the first output table can be printed with this statement:
+      cout << setw(4) << "q1" 
+           << setw(4) << "q2" 
+           << setw(4) << "q3" 
+           << setw(4) << "q4" << endl;
+   You'll have to include<iomanip> to use setw().
+  
+   If you choose to have a vector of vectors you should use the form
+        vector<vector<int> >
+   If you have the last two greater than signs right next to each other you will
+   get a compiler error. 
+
+2. Check your code against the applicable coding guidelines at 
+   cs.utexas.edu/~edwardsj/teaching/2011spring/cs105/coding_guidelines.html
+
+3. Submit all files using turnin.  This can be done as follows:
+        turnin --submit edwardsj assignment2 *

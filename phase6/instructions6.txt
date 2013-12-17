@@ -1,0 +1,74 @@
+Instructions for assignment 6
+
+0. [1 pt] Put your name in name.txt
+
+1. You work for a government contracting agency that specializes in GIS
+   software.  Your colleague Zeke has recently retired and you have been 
+   assigned to maintain the code that he wrote.  You are now looking at a
+   program called "terrace" that reads lyon.xyzi and creates terraces on the
+   hilltops by thresholding z values at the average plus multiples of the
+   standard deviation.  Lyon county has been complaining that the program has
+   memory leaks and you have been assigned to fix them.  In addition to memory
+   leaks they also complain that it occasionally crashes and gives bad results
+   on one of the terraces (it is black when it should be gray).  You can run the
+   software and see what it does with:
+
+      wget http://userweb.cs.utexas.edu/~edwardsj/downloads/lyon.xyzi.zip
+      unzip lyon.xyzi.zip
+      make
+      ./terrace lyon.xyzi lyon_new.xyzi
+      wget http://userweb.cs.utexas.edu/~edwardsj/downloads/lidarviewer
+      chmod 755 lidarviewer
+      ./lidarviewer lyon.xyzi &
+      [Press 'z' in lidarviewer to color by z-value]
+      ./lidarviewer lyon_new.xyzi &
+      [Press 'z' in lidarviewer to color by z-value]
+
+   Hopefully the software won't crash on you.  If it does, you'll have to start
+   with fixing the crash.  A good way to do this is to write cout statements
+   to help zero in on where it is crashing.
+
+   After you get it running (which may not take any work at all), compare 
+   the images of lyon.xyzi and lyon_new.xyzi from lidarviewer (remember to
+   press 'z' to color by z-value rather than intensity).  You'll see that 
+   lyon_new.xyzi looks like it is terraced.  But one of the terraces among 
+   the gray terraces is completely black.  In the same directory as this 
+   instruction file is an image (bad_terrace.jpg) that has red arrows pointing
+   to the bad terrace.  The black band they are pointing to should be gray,
+   similar to nearby terraces.  This is the bug the Lyon folks are 
+   complaining about.
+
+   You start looking at the code and soon see that old-time C-style programmer
+   Zeke not only left memory leaks and bugs but also wrote the code poorly.  
+   You decide that while you fix the bug and the memory leaks you'll go ahead 
+   and clean up the code while you're at it.  To gain points with the boss, 
+   you keep notes on WHAT you did and WHY in a file called notes.txt.
+
+   A few things:
+   * Because your boss is a bit of an old-timer, you're not allowed to use 
+     the STL (vector, list, etc) and so must continue to work directly with
+     arrays.  In addition, DON'T use templates.  You'll notice that calcAverage
+     and calcStdDev could be improved by introducing templates, but don't worry
+     about doing it.
+   * Don't worry about making a copy of the points array.  Just modify the 
+     points in place like is already done.
+   * Don't worry about making calcAverage and calcStdDev take const arrays.
+     Using const with arrays of pointers is a bit more advanced.
+   * You're NOT allowed to modify xyzi.cpp or xyzi.h.  You can change stats.h
+     but you should expect that most of your changes to happen in terrace.cpp.
+   * Make sure you understand what the code is doing.  You can get a lot of
+     understanding by drawing diagrams for yourself, and you can also learn
+     a lot by making small modifications to the code and seeing what effect
+     they have.
+
+   So go ahead and hack away at Zeke's code, but keep careful notes in 
+   notes.txt!  And most of all, have fun!  After all, beautifying ugly code
+   is likely something you'll be doing a lot of after graduation.
+
+2. Check your code against the applicable coding guidelines at 
+   cs.utexas.edu/~edwardsj/teaching/2011spring/cs105/coding_guidelines.html
+
+3. Submit all files using turnin.  This can be done as follows:
+        chmod 755 turnin.sh
+        ./turnin.sh
+

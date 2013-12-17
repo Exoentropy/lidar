@@ -1,0 +1,89 @@
+Instructions for assignment 5
+
+0. Copy all files from assignment 4:
+       cp -u ../assignment4/* .
+
+1. Change Point and Point2 to be classes.  Make the data members private.  Add
+   a constructor that takes x, y, z, i, [c, t] and initializes the data
+   members properly.  You should also have a default constructor for 
+   completeness.  See section 9.5 in the book if you have questions.
+   Add get/set methods to the class as needed and update any code that 
+   needs to change.
+
+2. Our calcAverage and calcStdDev functions are still troublesome: they only 
+   find the statistics for the intensity.  What if we want the average z
+   value?  We really don't want to write whole new functions for this.  We could
+   change them to take a list of doubles instead of points, but then we would
+   have to do an extra iteration over the points and storage requirements
+   would also be increased.  Instead, we're going to use templates to make them
+   completely general.  How?
+   2a. First write two "accessor" function templates (you can put them in 
+       fixlidar.cpp).  They will look like this:
+          template <typename P>
+          double getI(const P& p) {/* fill this in */}
+          template <typename P>
+          double getZ(const P& p) {/* fill this in */}
+   2b. Add a template parameter to each of the calc functions and to removeBad.
+       This template parameter will not refer to a data type as we have done in
+       the past, but it will refer to a *function type*.  When calling these
+       functions, you will pass in the name of the accessor function to use.
+   2c. Instead of taking a list, the calc functions should take templated 
+       begin and end iterators, similar to what we did in example12() in
+       lecture9.cpp.  This way we can use any type of container we want (e.g. 
+       lists, vectors, etc).  HINT: your calc functions should be so generic
+       now that you shouldn't see any references to points in there.  In fact,
+       you don't even need to include the Point type as a template parameter
+       anymore; indeed, you should remove it or it will cause compiler errors.
+   2d. Modify the code so that it calculates and outputs the average and 
+       standard deviation for both intensity and z.  Print the values out like 
+       this (the first two lines are for lyon, the second two for sioux):
+            average I = 5.33357, standard dev I = 1.21345
+	    average Z = 423.418, standard dev Z = 7.35992
+	    average I = 5.14727, standard dev I = 1.16776
+	    average Z = 417.587, standard dev Z = 8.66899
+       You can remove any calls to removeBad() since we're not going to be
+       removing points in this assignment.  Also, change main() so that an
+       output filename is no longer required.  Thus you should now be able
+       to run the program as follows:
+            ./fixlidar lyon.xyzi
+
+3. In your directory you should have a file called scores.dat.  This file
+   contains the same test scores used in assignment 2's quartile.dat.  Since
+   we have generic functions to find average and standard deviation, we will
+   use these to find the statistics for these scores.  In your main, now
+   make an additional check to see if the filename ends in ".dat".  If it
+   does, the following code should be executed:
+      // Note that this is a vector and not a list.  Remember, we made
+      // our functions so they don't care what the data structure is,
+      // as long as it has an iterator.
+      vector<int> scores;
+      int score;
+      while (in >> score) {
+        scores.push_back(score);
+      }
+      const double avg = calcAverage(scores.begin(), scores.end(), /*accessor*/);
+      const double stdDev = calcStdDev(scores.begin(), scores.end(), avg, /*accessor*/);
+      cout << "average = " << avg << ", standard dev = " << stdDev << endl;
+   You will have to write a new accessor function for this to work.  To do 
+   this, look at your getI() and getZ() functions and ask yourself two 
+   questions:
+     1) What will my new accessor function take as a parameter?  To help answer
+        this question, look at your calcAverage() function and ponder what it 
+	is passing to the accessor function.  Drawing diagrams often helps me.
+     2) What will my new accessor return?  Hopefully this will be fairly clear 
+        once you've figured out the parameter.
+   The output should be
+        average = 79.6136, standard dev = 14.1922
+
+4. Reminder: do not remove bad points or write out fixed files.  We're only 
+   looking for the averages and standard deviations as output in this assignment.
+
+5. Check your code against the applicable coding guidelines at 
+   cs.utexas.edu/~edwardsj/teaching/2011spring/cs105/coding_guidelines.html
+
+6. Submit all files using turnin.  If necessary, change all "assignment4"
+   to "assignment5" in turnin.sh.  Then:
+        chmod 755 turnin.sh
+        ./turnin.sh
+
+

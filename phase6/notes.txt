@@ -1,0 +1,17 @@
+In stats.h:
+-changed the (*(points+i)) to points[i] as per coding guidelines
+
+In terrace.cpp:
+-changed the error message to reflect terrace instead of fixlidar
+-changed the (*(points+i)) to points[i] as per coding guidelines
+-fixed the memory leak in the second else if statement, where points[i] was deleted after the new point was stored.
+-omitted repeated code in the if statements
+-deleted the array when finished
+-stored the address, rather than constant calls of z() method
+-added const where appropriate
+-added comments
+-avoids removing any elements by changing the z of the current rather than creating a new point
+
+Would change (if allowed in assignment):
+-in the Point class, add a get and set method, rather than dealing with addresses
+-either use a list or way to calculate the number of points, rather using a raw integer in the code
